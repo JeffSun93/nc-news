@@ -4,7 +4,7 @@ import axios from "axios";
 import MainLayout from "./layouts/MainLayout.jsx";
 
 import Articles from "./features/articles/routes/Articles.jsx";
-// import Article from "./features/articles/routes/Article.jsx";
+import Article from "./features/articles/routes/Article.jsx";
 import { CurrentUserProvider } from "./features/user/CurrentUser.jsx";
 
 import "./App.css";
@@ -23,22 +23,22 @@ function App() {
             </MainLayout>
           }
         />
-        {/* <Route
+        <Route
           path="/articles"
           element={
             <MainLayout>
               <Articles />
             </MainLayout>
           }
-        /> */}
-        {/* <Route
+        />
+        <Route
           path="/articles/:article_id"
           element={
             <MainLayout>
               <Article />
             </MainLayout>
           }
-        /> */}
+        />
       </Routes>
     </CurrentUserProvider>
   );

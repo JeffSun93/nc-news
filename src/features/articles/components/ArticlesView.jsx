@@ -7,14 +7,17 @@ const ArticlesView = () => {
     { title: "abc", author: "aidjfwe", topic: "sd" },
     { title: "bcd", body: "asdfadsf" },
   ]);
-  axios
-    .get("/api/articles")
-    .then(({ data }) => {
-      return data;
-    })
-    .then(({ articles }) => {
-      setArticles(articles);
-    });
+
+  useEffect(() => {
+    axios
+      .get("/api/articles")
+      .then(({ data }) => {
+        return data;
+      })
+      .then(({ articles }) => {
+        setArticles(articles);
+      });
+  }, []);
 
   return (
     <>
