@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ArticleCard from "./ArticleCard";
+import ArticleCard from "./ArticleCard.jsx";
 
-const ArticlesList = () => {
+const ArticlesView = () => {
   const [articles, setArticles] = useState([
     { title: "abc", author: "aidjfwe", topic: "sd" },
     { title: "bcd", body: "asdfadsf" },
@@ -27,4 +27,4 @@ const ArticlesList = () => {
   );
 };
 
-export default ArticlesList;
+export default ArticlesView;

@@ -1,9 +1,8 @@
-import { useUser } from "../contexts/CurrentUser.jsx";
+import useUser from "../features/user/useUser";
 const Header = () => {
-  console.log(useUser());
   const { currentUser, setCurrentUser } = useUser();
-  const logUser = (currentUser) => {
-    if (currentUser) {
+  const logUser = (user) => {
+    if (user) {
       setCurrentUser(null);
     } else {
       setCurrentUser("jeff");

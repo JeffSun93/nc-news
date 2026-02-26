@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
-const ArticleView = () => {
+const Article = () => {
   const { article_id } = useParams();
 };
 
-export default ArticleView;
+export default Article;

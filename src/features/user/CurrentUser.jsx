@@ -1,4 +1,4 @@
-import { useContext, createContext, useState } from "react";
+import { createContext, useState } from "react";
 
 const CurrentUserContext = createContext(null);
 
@@ -12,8 +12,4 @@ const CurrentUserProvider = (props) => {
   );
 };
 
-const useUser = () => {
-  return useContext(CurrentUserContext);
-};
-
-export { CurrentUserContext, CurrentUserProvider, useUser };
+export { CurrentUserContext, CurrentUserProvider };

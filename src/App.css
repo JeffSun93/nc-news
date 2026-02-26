@@ -1,4 +1,23 @@
-#root {
+.App {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: min-content auto auto;
+  grid-template-areas:
+    "header"
+    "nav"
+    "content";
+}
+
+@media only screen and (min-width: 600px) {
+  .App {
+    grid-template-rows: min-content auto;
+    grid-template-areas:
+      "nav "
+      "header"
+      "content";
+  }
+}
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,9 +58,20 @@
 
 .read-the-docs {
   color: #888;
-}
+} */
 
 header {
   background-color: lightblue;
   height: 60px;
+  grid-area: header;
+}
+nav {
+  background-color: lightblue;
+
+  grid-area: nav;
+}
+main {
+  background-color: rgb(24, 157, 66);
+
+  grid-area: content;
 }
