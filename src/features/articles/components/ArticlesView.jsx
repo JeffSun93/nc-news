@@ -22,9 +22,10 @@ const ArticlesView = () => {
   return (
     <>
       <ul>
-        {articles.map((article, index) => (
-          <ArticleCard key={index} article={article} />
-        ))}
+        {articles &&
+          articles.map((article, index) => (
+            <ArticleCard key={index} article={article} />
+          ))}
       </ul>
     </>
   );

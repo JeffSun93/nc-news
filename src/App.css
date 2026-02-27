@@ -62,7 +62,7 @@
 
 header {
   background-color: lightblue;
-  height: 60px;
+  height: 100px;
   grid-area: header;
 }
 nav {
