@@ -26,7 +26,7 @@ const ArticlesView = () => {
       <h2 className="text-[1.6rem] font-bold text-[#0f3b5f] mb-6 capitalize">
         {topic ? `${topic} articles` : "All articles"}
       </h2>
-      <ul className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
+      <ul className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {articles &&
           articles.map((article) => (
             <ArticleCard key={article.article_id} article={article} />
