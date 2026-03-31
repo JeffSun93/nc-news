@@ -5,7 +5,7 @@ import MainLayout from "./layouts/MainLayout.jsx";
 
 import Articles from "./features/articles/routes/Articles.jsx";
 import Article from "./features/articles/routes/Article.jsx";
-import { CurrentUserProvider } from "./features/user/CurrentUser.jsx";
+import { CurrentUserProvider } from "./features/user/components/CurrentUser.jsx";
 
 import { API_URL } from "./constants.js";
 

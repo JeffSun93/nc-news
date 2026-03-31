@@ -17,6 +17,11 @@ html {
   scroll-behavior: smooth;
 }
 
+button,
+a {
+  cursor: pointer;
+}
+
 body {
   margin: 0;
   font-family: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
