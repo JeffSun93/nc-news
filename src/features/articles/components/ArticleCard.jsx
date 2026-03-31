@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { convertToRelativeTime } from "../utils/timeConverter.js";
+import { convertToRelativeTime } from "../../../utils/timeConverter.js";
 import { VoteControll } from "./VoteControll.jsx";
 import { voteArticle } from "../apis/articles.js";
 import UserProfileModal from "../../user/components/UserProfileModal.jsx";

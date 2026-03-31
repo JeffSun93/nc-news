@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { VoteControll } from "./VoteControll";
 import { voteArticle } from "../apis/articles";
-import { convertToRelativeTime } from "../utils/timeConverter";
+import { convertToRelativeTime } from "../../../utils/timeConverter";
 import UserProfileModal from "../../user/components/UserProfileModal";
 
 const SingleArticleCard = ({ article }) => {
