@@ -28,7 +28,7 @@ const LoginModal = ({ onClose, onLogin }) => {
 
   const handleLogin = () => {
     if (!selectedUser) return;
-    onLogin(selectedUser.username);
+    onLogin(selectedUser);
     onClose();
   };
 

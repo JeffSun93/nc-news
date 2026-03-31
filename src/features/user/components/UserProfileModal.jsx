@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getUserByUsername } from "../apis/users";
 
-const AuthorModal = ({ username, onClose }) => {
+const UserProfileModal = ({ username, onClose }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -90,4 +90,4 @@ const AuthorModal = ({ username, onClose }) => {
   );
 };
 
-export default AuthorModal;
+export default UserProfileModal;

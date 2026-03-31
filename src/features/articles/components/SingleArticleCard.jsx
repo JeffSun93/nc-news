@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { VoteControll } from "./VoteControll";
 import { voteArticle } from "../apis/articles";
 import { convertToRelativeTime } from "../utils/timeConverter";
-import AuthorModal from "../../user/components/AuthorModal";
+import UserProfileModal from "../../user/components/UserProfileModal";
 
 const SingleArticleCard = ({ article }) => {
   const {
@@ -69,7 +69,7 @@ const SingleArticleCard = ({ article }) => {
         </span>
       </div>
       {isAuthorModalOpen && (
-        <AuthorModal
+        <UserProfileModal
           username={author}
           onClose={() => setIsAuthorModalOpen(false)}
         />

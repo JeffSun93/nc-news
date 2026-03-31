@@ -3,7 +3,7 @@ import { useState } from "react";
 import { convertToRelativeTime } from "../utils/timeConverter.js";
 import { VoteControll } from "./VoteControll.jsx";
 import { voteArticle } from "../apis/articles.js";
-import AuthorModal from "../../user/components/AuthorModal.jsx";
+import UserProfileModal from "../../user/components/UserProfileModal.jsx";
 
 const ArticleCard = (props) => {
   const { article } = props;
@@ -85,7 +85,7 @@ const ArticleCard = (props) => {
       </div>
 
       {isAuthorModalOpen && (
-        <AuthorModal
+        <UserProfileModal
           username={author}
           onClose={() => setIsAuthorModalOpen(false)}
         />
