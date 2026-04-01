@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import CommentCard from "./CommentCard";
-import { getCommentsByArticleId } from "../apis/comments";
+import { getCommentsByArticleId, deleteComment } from "../apis/comments";
+import useUser from "../../user/hooks/useUser";
 
 const CommentsView = ({ article_id }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { currentUser } = useUser();
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -23,6 +25,18 @@ const CommentsView = ({ article_id }) => {
 
     fetchComments();
   }, [article_id]);
+
+  const handleDelete = async (comment_id) => {
+    setComments((prev) => prev.filter((c) => c.comment_id !== comment_id));
+    try {
+      await deleteComment(comment_id);
+    } catch (err) {
+      setComments((prev) => {
+        const restored = comments.find((c) => c.comment_id === comment_id);
+        return restored ? [...prev, restored] : prev;
+      });
+    }
+  };
 
   return (
     <section className="mt-8">
@@ -48,7 +62,12 @@ const CommentsView = ({ article_id }) => {
       ) : (
         <ul className="flex flex-col gap-3">
           {comments.map((comment) => (
-            <CommentCard key={comment.comment_id} comment={comment} />
+            <CommentCard
+              key={comment.comment_id}
+              comment={comment}
+              isOwn={currentUser?.username === comment.author}
+              onDelete={() => handleDelete(comment.comment_id)}
+            />
           ))}
         </ul>
       )}
