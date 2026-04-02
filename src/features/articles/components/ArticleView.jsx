@@ -15,7 +15,7 @@ const ArticleView = ({ article_id, commentDelta }) => {
       try {
         const article = await getArticleById(article_id);
         setArticle(article);
-      } catch (err) {
+      } catch {
         setError("Failed to load article. Please try again.");
       } finally {
         setIsLoading(false);

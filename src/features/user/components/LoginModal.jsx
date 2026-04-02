@@ -13,7 +13,7 @@ const LoginModal = ({ onClose, onLogin }) => {
       try {
         const users = await getUsers();
         setUsers(users);
-      } catch (err) {
+      } catch {
         setError("Failed to load users. Please try again.");
       } finally {
         setIsLoading(false);

@@ -22,7 +22,7 @@ const CommentsView = ({ article_id, onCommentAdded, onCommentDeleted }) => {
       try {
         const comments = await getCommentsByArticleId(article_id);
         setComments(comments);
-      } catch (err) {
+      } catch {
         setError("Failed to load comments. Please try again.");
       } finally {
         setIsLoading(false);
@@ -47,7 +47,7 @@ const CommentsView = ({ article_id, onCommentAdded, onCommentDeleted }) => {
     onCommentDeleted?.();
     try {
       await deleteComment(comment_id);
-    } catch (err) {
+    } catch {
       setComments((prev) => (removed ? [...prev, removed] : prev));
       onCommentAdded?.();
     }

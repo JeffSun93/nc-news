@@ -29,7 +29,7 @@ const ArticlesView = () => {
       try {
         const articles = await getArticles(topic, sortBy, order);
         setArticles(articles);
-      } catch (err) {
+      } catch {
         setError("Failed to load articles. Please try again.");
       } finally {
         setIsLoading(false);

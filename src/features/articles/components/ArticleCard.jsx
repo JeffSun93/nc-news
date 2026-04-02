@@ -19,9 +19,12 @@ const ArticleCard = (props) => {
     article_img_url,
   } = article;
   const [currentVotes, setVotes] = useState(votes);
+  const [isVoting, setIsVoting] = useState(false);
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState(false);
   const { currentUser } = useUser();
   const handleVote = async () => {
+    if (isVoting) return;
+    setIsVoting(true);
     const isUpvoted = currentVotes > votes;
     const increment = isUpvoted ? -1 : 1;
     setVotes((v) => v + increment);
@@ -29,7 +32,9 @@ const ArticleCard = (props) => {
       await voteArticle(article_id, increment);
     } catch (error) {
       setVotes((v) => v - increment);
-      console.error(error);
+      console.error("Failed to update vote:", error);
+    } finally {
+      setIsVoting(false);
     }
   };
   return (
@@ -71,7 +76,7 @@ const ArticleCard = (props) => {
             onVote={handleVote}
             className="flex-1"
             currentVote={currentVotes}
-            disabled={!currentUser}
+            disabled={!currentUser || isVoting}
           />
           <span className="inline-flex items-center gap-1.5 bg-[rgba(187,122,19,0.1)] text-[#bb7a13] px-3 py-1.5 rounded-lg text-xs font-semibold flex-1 justify-center">
             💬 {comment_count}

@@ -20,24 +20,31 @@ const SingleArticleCard = ({ article, commentDelta = 0 }) => {
   } = article;
 
   const [currentVotes, setVotes] = useState(votes);
+  const [isVoting, setIsVoting] = useState(false);
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState(false);
   const { currentUser } = useUser();
 
   const handleVote = async () => {
+    if (isVoting) return;
+    setIsVoting(true);
     if (currentVotes > votes) {
       try {
         setVotes((v) => v - 1);
         await voteArticle(article_id, -1);
-      } catch (error) {
+      } catch {
         setVotes((v) => v + 1);
+      } finally {
+        setIsVoting(false);
       }
       return;
     }
     try {
       setVotes((v) => v + 1);
       await voteArticle(article_id, 1);
-    } catch (error) {
+    } catch {
       setVotes((v) => v - 1);
+    } finally {
+      setIsVoting(false);
     }
   };
 
@@ -65,7 +72,7 @@ const SingleArticleCard = ({ article, commentDelta = 0 }) => {
       />
       <p className="text-[#112230] leading-relaxed mb-5">{body}</p>
       <div className="flex items-center justify-end gap-3 pt-4 border-t border-[rgba(17,34,48,0.08)]">
-        <VoteControl onVote={handleVote} currentVote={currentVotes} className="w-fit" disabled={!currentUser} />
+        <VoteControl onVote={handleVote} currentVote={currentVotes} className="w-fit" disabled={!currentUser || isVoting} />
         <span className="inline-flex items-center gap-1.5 bg-[rgba(187,122,19,0.1)] text-[#bb7a13] px-3 py-1.5 rounded-lg text-xs font-semibold">
           💬 {comment_count + commentDelta}
         </span>

@@ -12,7 +12,7 @@ const UserProfileModal = ({ username, onClose }) => {
       try {
         const user = await getUserByUsername(username);
         setUser(user);
-      } catch (err) {
+      } catch {
         setError("Failed to load user.");
       } finally {
         setIsLoading(false);
