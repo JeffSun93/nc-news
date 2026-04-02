@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CommentCard from "./CommentCard";
-import { getCommentsByArticleId, deleteComment } from "../apis/comments";
+import { getCommentsByArticleId, deleteComment, postComment } from "../apis/comments";
 import useUser from "../../user/hooks/useUser";
 
 const CommentsView = ({ article_id }) => {
@@ -8,6 +8,12 @@ const CommentsView = ({ article_id }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { currentUser } = useUser();
+
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [body, setBody] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const textareaRef = useRef(null);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -26,6 +32,12 @@ const CommentsView = ({ article_id }) => {
     fetchComments();
   }, [article_id]);
 
+  useEffect(() => {
+    if (isAddOpen) {
+      textareaRef.current?.focus();
+    }
+  }, [isAddOpen]);
+
   const handleDelete = async (comment_id) => {
     setComments((prev) => prev.filter((c) => c.comment_id !== comment_id));
     try {
@@ -35,6 +47,33 @@ const CommentsView = ({ article_id }) => {
         const restored = comments.find((c) => c.comment_id === comment_id);
         return restored ? [...prev, restored] : prev;
       });
+    }
+  };
+
+  const handleOpen = () => {
+    setIsAddOpen(true);
+    setSubmitError(null);
+  };
+
+  const handleReset = () => {
+    setBody("");
+    setIsAddOpen(false);
+    setSubmitError(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!body.trim()) return;
+    setIsSubmitting(true);
+    setSubmitError(null);
+    try {
+      const newComment = await postComment(article_id, currentUser.username, body.trim());
+      setComments((prev) => [newComment, ...prev]);
+      handleReset();
+    } catch {
+      setSubmitError("Failed to post comment. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -70,6 +109,52 @@ const CommentsView = ({ article_id }) => {
             />
           ))}
         </ul>
+      )}
+
+      {currentUser && (
+        <div className="mt-4">
+          {!isAddOpen ? (
+            <button
+              onClick={handleOpen}
+              className="w-full bg-white/[0.84] border border-[rgba(17,34,48,0.12)] rounded-2xl px-4 py-3 text-sm text-[#4d5d69] text-left shadow-[0_12px_32px_rgba(15,35,53,0.08)] hover:bg-white transition-colors duration-150"
+            >
+              + Add a comment…
+            </button>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white/[0.84] border border-[rgba(17,34,48,0.12)] rounded-2xl p-4 shadow-[0_12px_32px_rgba(15,35,53,0.12)]"
+            >
+              <textarea
+                ref={textareaRef}
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                placeholder="Write your comment…"
+                rows={4}
+                className="w-full resize-none rounded-xl border border-[rgba(17,34,48,0.12)] bg-white/60 p-3 text-sm text-[#112230] placeholder-[#9aabb5] focus:outline-none focus:ring-2 focus:ring-[#0a7f78]/40 transition"
+              />
+              {submitError && (
+                <p className="text-red-500 text-xs mt-1">{submitError}</p>
+              )}
+              <div className="flex justify-end gap-2 mt-3">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="px-4 py-1.5 rounded-lg text-sm text-[#4d5d69] bg-[rgba(17,34,48,0.06)] hover:bg-[rgba(17,34,48,0.12)] transition-colors duration-150"
+                >
+                  Reset
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !body.trim()}
+                  className="px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-[#0a7f78] hover:bg-[#085f5a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
+                >
+                  {isSubmitting ? "Posting…" : "Post"}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       )}
     </section>
   );
