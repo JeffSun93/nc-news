@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { VoteControll } from "./VoteControll";
 import { voteArticle } from "../apis/articles";
@@ -20,24 +20,33 @@ const SingleArticleCard = ({ article, commentDelta = 0 }) => {
   } = article;
 
   const [currentVotes, setVotes] = useState(votes);
+  const [hasVoted, setHasVoted] = useState(false);
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState(false);
   const { currentUser } = useUser();
 
+  useEffect(() => {
+    setHasVoted(false);
+  }, [currentUser]);
+
   const handleVote = async () => {
-    if (currentVotes > votes) {
+    if (hasVoted) {
       try {
         setVotes((v) => v - 1);
+        setHasVoted(false);
         await voteArticle(article_id, -1);
-      } catch (error) {
+      } catch {
         setVotes((v) => v + 1);
+        setHasVoted(true);
       }
       return;
     }
     try {
       setVotes((v) => v + 1);
+      setHasVoted(true);
       await voteArticle(article_id, 1);
-    } catch (error) {
+    } catch {
       setVotes((v) => v - 1);
+      setHasVoted(false);
     }
   };
 

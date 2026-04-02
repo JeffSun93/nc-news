@@ -32,8 +32,6 @@ const ArticleView = ({ article_id, commentDelta }) => {
   ) : (
     <SingleArticleCard article={article} commentDelta={commentDelta} />
   );
-
-  return;
 };
 
 export default ArticleView;

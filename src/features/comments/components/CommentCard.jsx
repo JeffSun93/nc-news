@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { convertToRelativeTime } from "../../../utils/timeConverter";
 import { voteComment } from "../apis/comments";
 import useUser from "../../user/hooks/useUser";
@@ -8,6 +8,10 @@ const CommentCard = ({ comment, isOwn, onDelete }) => {
   const [currentVotes, setCurrentVotes] = useState(votes);
   const [hasVoted, setHasVoted] = useState(false);
   const { currentUser } = useUser();
+
+  useEffect(() => {
+    setHasVoted(false);
+  }, [currentUser]);
 
   const handleVote = async () => {
     if (hasVoted) {

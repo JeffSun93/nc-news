@@ -39,15 +39,13 @@ const CommentsView = ({ article_id, onCommentAdded, onCommentDeleted }) => {
   }, [isAddOpen]);
 
   const handleDelete = async (comment_id) => {
+    const commentToRestore = comments.find((c) => c.comment_id === comment_id);
     setComments((prev) => prev.filter((c) => c.comment_id !== comment_id));
     onCommentDeleted?.();
     try {
       await deleteComment(comment_id);
     } catch (err) {
-      setComments((prev) => {
-        const restored = comments.find((c) => c.comment_id === comment_id);
-        return restored ? [...prev, restored] : prev;
-      });
+      setComments((prev) => (commentToRestore ? [...prev, commentToRestore] : prev));
       onCommentAdded?.();
     }
   };

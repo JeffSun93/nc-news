@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { convertToRelativeTime } from "../../../utils/timeConverter.js";
 import { VoteControll } from "./VoteControll.jsx";
 import { voteArticle } from "../apis/articles.js";
@@ -19,25 +19,32 @@ const ArticleCard = (props) => {
     article_img_url,
   } = article;
   const [currentVotes, setVotes] = useState(votes);
+  const [hasVoted, setHasVoted] = useState(false);
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState(false);
   const { currentUser } = useUser();
+
+  useEffect(() => {
+    setHasVoted(false);
+  }, [currentUser]);
   const handleVote = async () => {
-    if (currentVotes > votes) {
+    if (hasVoted) {
       try {
-        setVotes((vote) => vote - 1);
-        const result = await voteArticle(article_id, -1);
-        console.log(result);
-      } catch (error) {
-        console.error(error);
+        setVotes((v) => v - 1);
+        setHasVoted(false);
+        await voteArticle(article_id, -1);
+      } catch {
+        setVotes((v) => v + 1);
+        setHasVoted(true);
       }
       return;
     }
     try {
-      setVotes((vote) => vote + 1);
-      const result = await voteArticle(article_id, 1);
-      console.log(result);
-    } catch (error) {
-      console.error(error);
+      setVotes((v) => v + 1);
+      setHasVoted(true);
+      await voteArticle(article_id, 1);
+    } catch {
+      setVotes((v) => v - 1);
+      setHasVoted(false);
     }
   };
   return (
