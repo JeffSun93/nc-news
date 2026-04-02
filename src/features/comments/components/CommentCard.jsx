@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { convertToRelativeTime } from "../../../utils/timeConverter";
 import { voteComment } from "../apis/comments";
+import useUser from "../../user/hooks/useUser";
 
 const CommentCard = ({ comment, isOwn, onDelete }) => {
   const { comment_id, author, body, created_at, votes } = comment;
   const [currentVotes, setCurrentVotes] = useState(votes);
   const [hasVoted, setHasVoted] = useState(false);
+  const { currentUser } = useUser();
 
   const handleVote = async () => {
     if (hasVoted) {
@@ -48,9 +50,11 @@ const CommentCard = ({ comment, isOwn, onDelete }) => {
       <div className="flex items-center justify-between text-xs text-[#4d5d69]">
         <span>{convertToRelativeTime(created_at)}</span>
         <button
-          onClick={handleVote}
+          onClick={currentUser ? handleVote : undefined}
           className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg transition-colors duration-150 font-semibold ${
-            hasVoted
+            !currentUser
+              ? "!cursor-default bg-[rgba(10,127,120,0.08)] text-[#4d5d69]"
+              : hasVoted
               ? "bg-[rgba(10,127,120,0.2)] text-[#0a7f78]"
               : "bg-[rgba(10,127,120,0.08)] text-[#4d5d69] hover:bg-[rgba(10,127,120,0.15)]"
           }`}

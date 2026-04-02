@@ -4,6 +4,7 @@ import { convertToRelativeTime } from "../../../utils/timeConverter.js";
 import { VoteControll } from "./VoteControll.jsx";
 import { voteArticle } from "../apis/articles.js";
 import UserProfileModal from "../../user/components/UserProfileModal.jsx";
+import useUser from "../../user/hooks/useUser.js";
 
 const ArticleCard = (props) => {
   const { article } = props;
@@ -19,6 +20,7 @@ const ArticleCard = (props) => {
   } = article;
   const [currentVotes, setVotes] = useState(votes);
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState(false);
+  const { currentUser } = useUser();
   const handleVote = async () => {
     if (currentVotes > votes) {
       try {
@@ -77,6 +79,7 @@ const ArticleCard = (props) => {
             onVote={handleVote}
             className="flex-1"
             currentVote={currentVotes}
+            disabled={!currentUser}
           />
           <span className="inline-flex items-center gap-1.5 bg-[rgba(187,122,19,0.1)] text-[#bb7a13] px-3 py-1.5 rounded-lg text-xs font-semibold flex-1 justify-center">
             💬 {comment_count}

@@ -4,6 +4,7 @@ import { VoteControll } from "./VoteControll";
 import { voteArticle } from "../apis/articles";
 import { convertToRelativeTime } from "../../../utils/timeConverter";
 import UserProfileModal from "../../user/components/UserProfileModal";
+import useUser from "../../user/hooks/useUser";
 
 const SingleArticleCard = ({ article }) => {
   const {
@@ -20,6 +21,7 @@ const SingleArticleCard = ({ article }) => {
 
   const [currentVotes, setVotes] = useState(votes);
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState(false);
+  const { currentUser } = useUser();
 
   const handleVote = async () => {
     if (currentVotes > votes) {
@@ -63,7 +65,7 @@ const SingleArticleCard = ({ article }) => {
       />
       <p className="text-[#112230] leading-relaxed mb-5">{body}</p>
       <div className="flex items-center justify-end gap-3 pt-4 border-t border-[rgba(17,34,48,0.08)]">
-        <VoteControll onVote={handleVote} currentVote={currentVotes} className="w-fit" />
+        <VoteControll onVote={handleVote} currentVote={currentVotes} className="w-fit" disabled={!currentUser} />
         <span className="inline-flex items-center gap-1.5 bg-[rgba(187,122,19,0.1)] text-[#bb7a13] px-3 py-1.5 rounded-lg text-xs font-semibold">
           💬 {comment_count}
         </span>
