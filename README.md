@@ -4,7 +4,7 @@
 
 ## Hosted Version
 
-The live app can be accessed at **https://nc-news-jeff.netlify.app ** .
+The live app can be accessed at **https://nc-news-jeff.netlify.app** .
 
 ## Project Summary
 
